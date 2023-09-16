@@ -132,7 +132,7 @@ if (mysqli_num_rows($ress) > 0) {
                 <button class="btn btn-outline-dark my-3 col-3 ms-1 fs-4 p-2" onclick="none()"
                     id="n">None</button>
                 <button class="btn btn-outline-primary my-2 col-11 ms-3 fs-5 p-1" onclick="update()"
-                    id="u">Update</button>
+                    id="u">Done</button>
                 
                     
 
@@ -160,6 +160,10 @@ if (mysqli_num_rows($ress) > 0) {
 
 
     <script>
+        const roll_array=[]
+        const status_array=[]
+
+
         let b = document.getElementById("s").innerText;
         let roll = document.getElementById("s").innerText;
         let e = document.getElementById("e").innerText;
@@ -168,92 +172,88 @@ if (mysqli_num_rows($ress) > 0) {
             document.getElementById("start").innerHTML = b;
         }
         function present() {
-            // console.log("Present...");
-            if (b < e) {
+            if (b <=e) {
+                status='P'
+                roll_array.push(b)
+                status_array.push(status);
                 b++;
-                document.getElementById("start").innerHTML = b;
-            }
-            else {
-                alert("done...");
-                window.location.href = "http://localhost/attend/real/take_attendence.php?h=<?php echo $email;?>";   
-            }
-
+                
+                let w = parseInt(e);
+                let ww=w+1;
+                
+                if(b==ww)
+                {
+                    document.getElementById("start").innerHTML = b-1;
+                }
+                else
+                {
+               document.getElementById("start").innerHTML = b;
+                }
+            } 
+           
         }
         function absent() {
-            // console.log("Absent...");
-            if (b < e) {
+            if (b <=e) {
+                status='A'
+                roll_array.push(b)
+                status_array.push(status);
                 b++;
-                document.getElementById("start").innerHTML = b;
-            }
-            else {
-
-                alert("done...");
-                window.location.href = "http://localhost/attend/real/take_attendence.php?h=<?php echo $email;?>";
-
-            }
+                
+                let w = parseInt(e);
+                let ww=w+1;
+                
+                if(b==ww)
+                {
+                    document.getElementById("start").innerHTML = b-1;
+                }
+                else
+                {
+               document.getElementById("start").innerHTML = b;
+                }
+            } 
+           
+           
         }
         function none () {
-            // console.log("Absent...");
-            if (b < e) {
+            
+            if (b <=e) {
+                status='N'
+                roll_array.push(b)
+                status_array.push(status);
                 b++;
-                document.getElementById("start").innerHTML = b;
-            }
-            else {
-
-                alert("done...");
-                window.location.href = "http://localhost/attend/real/take_attendence.php?h=<?php echo $email;?>";
-
-            }
+               
+                let w = parseInt(e);
+                let ww=w+1;
+                
+                if(b==ww)
+                {
+                    document.getElementById("start").innerHTML = b-1;
+                }
+                else
+                {
+               document.getElementById("start").innerHTML = b;
+                }
+            } 
+           
+            
+           
         }
 
-        $("#p").click(function () {
-             if (roll <= e) {
-            let status = "P"
-            $.post("insert.php", {
-                roll: roll,
-                status: status,
+        function update() {
+            if (b>e) {
+                document.getElementById("start").innerHTML = 'done';
+                $.post("insert.php", {
+                roll: JSON.stringify(roll_array),
+                status: JSON.stringify(status_array),
                 name: '<?php echo $name; ?>',
                 class_name: '<?php echo $class; ?>'
             },
                 function (data, status) {
-                    // console.log(data);
+                    console.log(data);
                 });
-            roll++;
+                window.location.href = "http://localhost/attend/real/take_attendence.php?h=<?php echo $email;?>";   
             }
-        });
-
-
-        $("#a").click(function () {
-            if (roll <= e) {
-            let status = "A"
-            $.post("insert.php", {
-                roll: roll,
-                status: status,
-                name: '<?php echo $name; ?>',
-                class_name: '<?php echo $class; ?>'
-            },
-                function (data, status) {
-                    // console.log(data);
-                });
-            roll++;
-            }
-        });
-        $("#n").click(function () {
-            if (roll <= e) {
-            let status = "N"
-            $.post("insert.php", {
-                roll: roll,
-                status: status,
-                name: '<?php echo $name; ?>',
-                class_name: '<?php echo $class; ?>'
-            },
-                function (data, status) {
-                    // console.log(data);
-                });
-            roll++;
-            }
-        });
-
+        }
     </script>
 
 
