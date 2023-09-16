@@ -3,8 +3,10 @@ include 'connect.php';
 
 // $datee = $_POST['datee'];
 $class= $_POST['class_name'];
+$e_date= $_POST['e_date'];
+$s_date= $_POST['s_date'];
 
-$sqll = "SELECT COUNT(DISTINCT datee) AS total FROM `attendencee` WHERE class_name='$class'";
+$sqll = "SELECT COUNT(DISTINCT datee) AS total FROM `attendencee` WHERE class_name='$class' and `datee` BETWEEN '$s_date' AND '$e_date'";
 $ress = mysqli_query($conn, $sqll);
 $row=mysqli_fetch_assoc($ress);
 $total=$row['total'];
@@ -18,8 +20,9 @@ $endd=$row['endd'];
 $res="";
 $slno=1;
 
-$sqll = "SELECT roll,round(COUNT(DISTINCT datee)*100/$total,1) AS count FROM attendencee WHERE status='P' AND class_name='$class' GROUP BY roll";
+$sqll = "SELECT roll,round(COUNT(DISTINCT datee)*100/$total,1) AS count FROM attendencee WHERE status='P' AND class_name='$class' and `datee` BETWEEN '$s_date' AND '$e_date' GROUP BY roll";
 $ress = mysqli_query($conn, $sqll);
+
 
 while($row=mysqli_fetch_assoc($ress))
 {
