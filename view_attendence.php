@@ -133,12 +133,6 @@ $class = $_GET["c"];
             color: #fff;
         }
 
-        /* .days li#taken {
-            color: black;
-            border-radius: 70%;
-            background:greenyellow;
-        } */
-
         .days li::before {
             position: absolute;
             content: "";
@@ -233,6 +227,79 @@ $class = $_GET["c"];
     <div class="bodyy">
 
 
+
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Enter dates</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="alert alert-info" role="alert">
+                        Note :
+                        Please enter the range of dates on which you have taken the Attendence.
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="mb-3">
+                            <label for="sd" class="col-form-label">Start date:</label>
+                            <input type="date" class="form-control" id="sd">
+                        </div>
+                        <div class="mb-3">
+                            <label for="ed" class="col-form-label">End date:</label>
+                            <input type="date" class="form-control" id="ed">
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" onclick="show()" data-bs-dismiss="modal" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        <div class="modal fade" id="exampleModall" tabindex="-1" aria-labelledby="exampleModalLabell" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form action="download.php" method='post'>
+                    <input type="hidden" name="class" value="<?php echo $class ?>">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabell">Enter dates</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="alert alert-info" role="alert">
+                            Note :
+                            Please enter the range of dates on which you have taken the Attendence.
+                        </div>
+                        <div class="modal-body">
+
+                            <div class="mb-3">
+                                <label for="sdd" class="col-form-label">Start date:</label>
+                                <input type="date" class="form-control" id="sdd" name='sdd'>
+                            </div>
+                            <div class="mb-3">
+                                <label for="edd" class="col-form-label">End date:</label>
+                                <input type="date" class="form-control" id="edd" name="edd">
+                            </div>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" data-bs-dismiss="modal" class="btn btn-primary">Submit</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
         <div class="wrapper bg-light">
             <header>
                 <div id="get">
@@ -271,21 +338,13 @@ $class = $_GET["c"];
                         <div class="p-4 flex-fill rounded mb-2 btn btn-outline-secondary" style=" box-shadow: inset -10px -10px 15px rgba(255, 255, 255, 0.198), 
                         inset 10px 10px 15px rgba(70, 70, 70, 0.12);"><span id="none" class="h3"></span> None</div>
                     </div>
-                    <button class="p-1 col-12 flex-fill rounded mb-2 btn btn-outline-primary" onclick="show()" style=" box-shadow: inset -10px -10px 15px rgba(255, 255, 255, 0.198), 
-                        inset 10px 10px 15px rgba(70, 70, 70, 0.12);"><span id="show" class="h3"></span>Students detels</button>
-                    <!-- <button class="p-1 col-3 flex-fill rounded mb-2 ms-4 btn btn-outline-primary" onclick="download()" style=" box-shadow: inset -10px -10px 15px rgba(255, 255, 255, 0.198), 
-                        inset 10px 10px 15px rgba(70, 70, 70, 0.12);"><span id="show" class="h3"></span>Download</button> -->
-                       
-                        <form class="flex-fill" action="download.php" method="post">
-                        <input type="hidden" name="class" value="<?php echo$class?>">
-                        <button type="submit" class="btn btn-outline-primary col-12" style=" box-shadow: inset -10px -10px 15px rgba(255, 255, 255, 0.198), 
+                    <button data-bs-toggle="modal" data-bs-target="#exampleModal" class="p-1 col-12 flex-fill rounded mb-2 btn btn-outline-primary" style=" box-shadow: inset -10px -10px 15px rgba(255, 255, 255, 0.198), 
+                        inset 10px 10px 15px rgba(70, 70, 70, 0.12);"><span id="show" class="h3"></span>Students details</button>
+
+
+                    <button data-bs-toggle="modal" data-bs-target="#exampleModall" class="p-1 col-12 flex-fill rounded mb-2 btn btn-outline-primary" style=" box-shadow: inset -10px -10px 15px rgba(255, 255, 255, 0.198), 
                         inset 10px 10px 15px rgba(70, 70, 70, 0.12);"><span id="show" class="h3"></span>Download</button>
 
-                        </form>
-                        
-                    <!-- <button type="button" class="btn btn-outline-secondary">Secondary</button>
-      <button type="button" class="btn btn-outline-success">Success</button>
-      <button type="button" class="btn btn-outline-danger">Danger</button> -->
                 </div>
             </div>
         </div>
@@ -356,6 +415,8 @@ $class = $_GET["c"];
 
             for (let i = firstDayofMonth; i > 0; i--) { // creating li of previous month last days
                 liTag += `<li class="inactive" onclick="say(${lastDateofLastMonth - i + 1})" >${lastDateofLastMonth - i + 1}</li>`;
+
+
             }
 
             for (let i = 1; i <= lastDateofMonth; i++) { // creating li of all days of current month
@@ -367,6 +428,8 @@ $class = $_GET["c"];
 
             for (let i = lastDayofMonth; i < 6; i++) { // creating li of next month first days
                 liTag += `<li class="inactive"  onclick="say(${i - lastDayofMonth + 1})" )>${i - lastDayofMonth + 1}</li>`
+
+
             }
 
 
@@ -389,24 +452,23 @@ $class = $_GET["c"];
                         const ll = l.replace("0", "_");
                         if (ll[9] != 0) {
                             // let llo = ll.replace("0", "_");
-                        // }
-                        // console.log(ll[9])
-                        let llo = ll.replace("0", "_");
-                        let lll = llo.replace("_", "0");
-                        let last = lll.replace("_", "");
-                        let lasto = last.replace("_", "");
-                        let lastl = lasto.replace("-", "");
-                        const nowlast = lastl.replace("-", "");
-                        $(`#${nowlast}`).addClass("taken");
+                            // }
+                            // console.log(ll[9])
+                            let llo = ll.replace("0", "_");
+                            let lll = llo.replace("_", "0");
+                            let last = lll.replace("_", "");
+                            let lasto = last.replace("_", "");
+                            let lastl = lasto.replace("-", "");
+                            const nowlast = lastl.replace("-", "");
+                            $(`#${nowlast}`).addClass("taken");
 
-                        }
-                        else{
+                        } else {
                             let lll = ll.replace("_", "0");
-                        let last = lll.replace("_", "");
-                        let lasto = last.replace("_", "");
-                        let lastl = lasto.replace("-", "");
-                        const nowlast = lastl.replace("-", "");
-                        $(`#${nowlast}`).addClass("taken");
+                            let last = lll.replace("_", "");
+                            let lasto = last.replace("_", "");
+                            let lastl = lasto.replace("-", "");
+                            const nowlast = lastl.replace("-", "");
+                            $(`#${nowlast}`).addClass("taken");
                         }
                         // console.log(nowlast);
                         // console.log(elemclass);
@@ -443,7 +505,7 @@ $class = $_GET["c"];
             let dob = new Date(which + m);
             const [d] = dob.toISOString().split("T");
             document.getElementById("getdate").innerText = d;
-            // console.log (d);
+            // console.log(d);
             $.post("fetch.php", {
                     datee: d,
                     class_name: '<?php echo $class; ?>'
@@ -464,8 +526,6 @@ $class = $_GET["c"];
         }
 
         function update(roll, str) {
-            // console.log(roll);
-            // console.log(str);
             $.post("update.php", {
                     datee: str,
                     roll: roll,
@@ -482,11 +542,16 @@ $class = $_GET["c"];
         }
 
         function show() {
+            const sd = document.getElementById('sd').value;
+            const ed = document.getElementById('ed').value;
             $.post("show.php", {
-                    class_name: '<?php echo $class; ?>'
+                    class_name: '<?php echo $class; ?>',
+                    s_date: sd,
+                    e_date: ed
                 },
                 function(data, status) {
                     const a = data;
+                    console.log(a);
                     document.getElementById("table1").innerHTML = a;
 
                 });
